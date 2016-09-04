@@ -1,0 +1,88 @@
+<!DOCTYPE html><html><head><title>Who Don&rsquo;t I Follow Back?</title>
+
+<meta name="viewport" content="width=580, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="shortcut icon" href="favicon.ico">
+
+</head>
+
+<body onload="document.getElementById('FollowersData').value=startertext" >
+	<center>
+    <table style="position:absolute; left:10px; top:10px; background-color:black;">
+      <td>
+        <a href="#popup1"><img title="Information" src="../jdgmiles.github.io/questionmark.png" style="width:60px"></a><br>
+        <a href="https://twitter.com/jimdgmiles" target=blank_><img title="James Miles on Twitter" src="../jdgmiles.github.io/twitter.png" style="width:60px; height:60px"></a><br>
+        <a href="http://jdgmiles.github.io/" target="_blank"><img title="Projects Page" src="../jdgmiles.github.io/jdgm.png" style="width:60px"></a>
+      </td>
+    </table>
+
+		<div id="popup1" class="overlay">
+			<div class="popup">
+				<div style="font-family:Georgia; color:white; text-align:center; font-size:250%; border:0px;">Who Don&rsquo;t I<br>Follow Back?</div>
+				<a class="close" href="#">&times;</a>
+				<p style="font-family:Georgia; font-size:25px; color:white; text-align:justify;">1. Go to your Twitter profile page in a browser.<br><br>2. Click the <u>following</u> tab and scroll down until no more people who are following you load.<br><br>3. Click an empty part of the page and press ctrl+A, ctrl+C to copy the contents.<br><br>4. Come back to this page, click the top box and press ctrl+V, which will paste it all in. Below it will tell you who you don&rsquo;t follow back.</p>
+			</div>
+		</div>
+
+    <table style="padding:0px 80px 0px 80px;">
+			<tr>
+        <td><textarea class="topboxes" id="FollowersData" type="text" onblur="if(this.value==''){this.value=startertext;}" onchange="process();" onfocus="if(this.value==startertext){this.value = ''}"/></textarea></td>
+      </tr>
+			<tr>
+        <td><div class="middleboxes">You Don&rsquo;t Follow Back:</textarea></td>
+      </tr>
+			<tr>
+        <td><div class="bottomboxes" id="Fans"</div></td>
+      </tr>
+
+    </table>
+
+  </center>
+</body>
+</html>
+
+<script type="text/javascript">
+var startertext="Follower data";
+var rawfollowers="";
+var followers=[];
+var followerdata=[];
+var followerdata2=[];
+var output='';
+var temp='';
+
+
+function process(){
+
+	output='';
+	for(i=0; i<followers.length; i++){followers[i]='';}
+	for(i=0; i<followerdata.length; i++){followerdata[i]='';}
+	rawfollowers=document.getElementById("FollowersData").value;
+	rawfollowers=rawfollowers.split("User Actions");
+	for(i=1; i<rawfollowers.length; i++){
+		followerdata=rawfollowers[i].split("\n");
+		followers[i-1]=followerdata[3];
+		for(j=0; j<4; j++){followerdata2=0;}
+		followerdata2=followers[i-1].split(" ");
+		if(followerdata[1]!="Following"){followers[i-1]=followerdata2[0];}
+		else{followers[i-1]='';}
+	}
+
+	output='';
+
+	for(i=0; i<followers.length; i++){
+		if(followers[i]!=''){
+			temp='';
+			for(j=1; j<followers[i].length; j++){temp=temp+followers[i][j];}
+			output=output+"<a target=\"_blank\" href=\"http://twitter.com/"+temp+"\">"+temp+"</a><br>";
+		}
+	}
+
+	document.getElementById("Fans").innerHTML=output;
+
+	setTimeout(process, 2000);
+
+}
+
+process();
+
+</script>
